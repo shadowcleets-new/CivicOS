@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CivicOS</string>
+    <string name="panic_button">Emergency SOS</string>
+    <string name="grievance_cam">Grievance Cam</string>
+    <string name="disclaimer_title">Liability Disclaimer</string>
+    <string name="disclaimer_text">This app uses AI guidance. In emergencies, call 112.</string>
+</resources>

@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+psycopg2-binary
+geoalchemy2
+sqlalchemy
+geopandas
+shapely
+requests
+pyrosm
+osmium
+langchain
+google-generativeai
+chromadb
+playwright
+pytesseract
+beautifulsoup4
+Scrapy
