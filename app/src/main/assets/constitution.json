@@ -1,0 +1,32 @@
+[
+  {
+    "id": "Preamble",
+    "part": "Preamble",
+    "title": "The Preamble",
+    "content_eng": "WE, THE PEOPLE OF INDIA, having solemnly resolved to constitute India into a SOVEREIGN SOCIALIST SECULAR DEMOCRATIC REPUBLIC...",
+    "content_eng_simple": "We, the people of India, promise to make India a free and fair country where everyone is treated equally. We promise justice, freedom, and equality for all citizens.",
+    "content_hin": "हम, भारत के लोग, भारत को एक सम्पूर्ण प्रभुत्व-सम्पन्न समाजवादी पंथनिरपेक्ष लोकतंत्रात्मक गणराज्य बनाने के लिए...",
+    "content_hin_simple": "हम भारत के लोग वादा करते हैं कि भारत एक स्वतंत्र और निष्पक्ष देश होगा जहाँ सभी के साथ समान व्यवहार किया जाएगा।",
+    "content_guj": "અમે, ભારતના લોકો, ભારતને એક સાર્વભૌમ સમાજવાદી બિનસાંપ્રદાયિક લોકશાહી પ્રજાસત્તાક બનાવવા માટે...",
+    "content_guj_simple": "અમે ભારતના લોકો ભારતને મુક્ત અને ન્યાયી દેશ બનાવવાનું વચન આપીએ છીએ જ્યાં દરેક સાથે સમાન વ્યવહાર કરવામાં આવે.",
+    "content_tam": "இந்திய மக்களாகிய நாம், இந்தியாவை ஒரு இறையாண்மை கொண்ட சோசலிச மதச்சார்பற்ற ஜனநாயகக் குடியரசாக...",
+    "content_tam_simple": "இந்திய மக்களாகிய நாம், இந்தியாவை அனைவரும் சமமாக நடத்தப்படும் சுதந்திரமான மற்றும் நியாயமான நாடாக மாற்றுவோம் என்று உறுதியளிக்கிறோம்.",
+    "content_odi": "ଆମ୍ଭେ ଭାରତର ଜନସାଧାରଣ, ଭାରତକୁ ଏକ ସାର୍ବଭୌମ ସମାଜବାଦୀ ଧର୍ମନିରପେକ୍ଷ ଗଣତାନ୍ତ୍ରିକ ସାଧାରଣତନ୍ତ୍ର ରୂପେ...",
+    "content_odi_simple": "ଆମେ ଭାରତର ଲୋକମାନେ ଭାରତକୁ ଏକ ମୁକ୍ତ ଏବଂ ନିରପେକ୍ଷ ଦେଶ କରିବାକୁ ପ୍ରତିଶ୍ରୁତି ଦେଉଛୁ ଯେଉଁଠାରେ ସମସ୍ତଙ୍କ ସହିତ ସମାନ ବ୍ୟବହାର କରାଯାଏ।"
+  },
+  {
+    "id": "Art 14",
+    "part": "Part III: Fundamental Rights",
+    "title": "Right to Equality",
+    "content_eng": "The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.",
+    "content_eng_simple": "Everyone is equal in the eyes of the law. No one is above the law, not even the government. Rich or poor, you get the same justice.",
+    "content_hin": "राज्य, भारत के राज्यक्षेत्र में किसी व्यक्ति को विधि के समक्ष समता से या विधियों के समान संरक्षण से वंचित नहीं करेगा।",
+    "content_hin_simple": "कानून की नजर में सब बराबर हैं। सरकार भी कानून से ऊपर नहीं है। अमीर हो या गरीब, सबको एक जैसा न्याय मिलेगा।",
+    "content_guj": "આર્ટિકલ 14: કાયદા સમક્ષ સમાનતા.",
+    "content_guj_simple": "કાયદાની નજરમાં દરેક વ્યક્તિ સમાન છે. અમીર હોય કે ગરીબ, બધાને સમાન ન્યાય મળે છે.",
+    "content_tam": "சட்டத்தின் முன் அனைவரும் சமம்.",
+    "content_tam_simple": "சட்டத்தின் பார்வையில் அனைவரும் சமம். ஏழையோ பணக்காரரோ, அனைவருக்கும் ஒரே நீதி கிடைக்கும்.",
+    "content_odi": "ଆଇନ ଆଗରେ ସମସ୍ତେ ସମାନ.",
+    "content_odi_simple": "ଆଇନ ଦୃଷ୍ଟିରେ ସମସ୍ତେ ସମାନ | ଧନୀ କିମ୍ବା ଗରିବ, ଆପଣ ସମାନ ନ୍ୟାୟ ପାଆନ୍ତି |"
+  }
+]

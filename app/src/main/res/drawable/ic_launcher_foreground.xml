@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nivar App Logo - Production Vector Drawable -->
+<!-- Design: Shield + Lotus + Government Pillars + निवार Text -->
+<!-- Colors: Teal (#00897B) + Navy (#1A237E) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="200dp" android:height="200dp" android:viewportWidth="200" android:viewportHeight="200">
+
+    <!-- Background Circle (Optional - for better contrast) -->
+    <path android:fillColor="#FFFFFF" android:pathData="M100,10 A90,90 0 1,1 100,190 A90,90 0 1,1 100,10 Z" />
+
+    <!-- Shield Base - Navy Outline -->
+    <path android:fillColor="#00000000" android:strokeColor="#1A237E" android:strokeWidth="3" android:pathData="M100,25 
+                         L155,40 
+                         L155,100 
+                         Q155,140 100,165 
+                         Q45,140 45,100 
+                         L45,40 
+                         Z" />
+
+    <!-- Shield Inner Fill - Light Gradient Effect (Teal tint) -->
+    <path android:fillColor="#E0F2F1" android:pathData="M100,30 
+                         L150,43 
+                         L150,100 
+                         Q150,135 100,158 
+                         Q50,135 50,100 
+                         L50,43 
+                         Z" />
+
+    <!-- Lotus Petals (Top) - Teal -->
+    <!-- Center Petal -->
+    <path android:fillColor="#00897B" android:pathData="M100,50 
+                         Q95,60 95,65 
+                         L100,70 
+                         L105,65 
+                         Q105,60 100,50 Z" />
+
+    <!-- Left Petal -->
+    <path android:fillColor="#00897B" android:pathData="M85,55 
+                         Q80,63 82,68 
+                         L90,70 
+                         L93,65 
+                         Q92,58 85,55 Z" />
+
+    <!-- Right Petal -->
+    <path android:fillColor="#00897B" android:pathData="M115,55 
+                         Q120,63 118,68 
+                         L110,70 
+                         L107,65 
+                         Q108,58 115,55 Z" />
+
+    <!-- Far Left Petal -->
+    <path android:fillColor="#00897B" android:pathData="M70,60 
+                         Q68,68 70,72 
+                         L78,72 
+                         L80,67 
+                         Q78,62 70,60 Z" />
+
+    <!-- Far Right Petal -->
+    <path android:fillColor="#00897B" android:pathData="M130,60 
+                         Q132,68 130,72 
+                         L122,72 
+                         L120,67 
+                         Q122,62 130,60 Z" />
+
+    <!-- Government Building - Pillars (Teal) -->
+    <!-- Triangular Pediment (Roof) -->
+    <path android:fillColor="#1A237E" android:pathData="M100,75 
+                         L70,88 
+                         L130,88 
+                         Z" />
+
+    <!-- Left Pillar -->
+    <path android:fillColor="#00897B" android:pathData="M75,88 
+                         L80,88 
+                         L80,120 
+                         L75,120 
+                         Z" />
+
+    <!-- Center-Left Pillar -->
+    <path android:fillColor="#00897B" android:pathData="M90,88 
+                         L95,88 
+                         L95,120 
+                         L90,120 
+                         Z" />
+
+    <!-- Center-Right Pillar -->
+    <path android:fillColor="#00897B" android:pathData="M105,88 
+                         L110,88 
+                         L110,120 
+                         L105,120 
+                         Z" />
+
+    <!-- Right Pillar -->
+    <path android:fillColor="#00897B" android:pathData="M120,88 
+                         L125,88 
+                         L125,120 
+                         L120,120 
+                         Z" />
+
+    <!-- Base Platform -->
+    <path android:fillColor="#1A237E" android:pathData="M68,120 
+                         L132,120 
+                         L132,125 
+                         L68,125 
+                         Z" />
+
+    <!-- Decorative Foundation Steps -->
+    <path android:fillColor="#00897B" android:pathData="M65,125 
+                         L135,125 
+                         L135,128 
+                         L65,128 
+                         Z" />
+
+    <!-- Devanagari Text "निवार" Below -->
+    <!-- This is a simplified representation - actual Devanagari requires custom paths -->
+    <!-- For production, use TextView overlay or custom font -->
+
+    <!-- Accent Circle (Bottom - Like a seal) -->
+    <path android:fillColor="#00000000" android:strokeColor="#00897B" android:strokeWidth="2" android:pathData="M100,145 A15,15 0 1,1 100,175 A15,15 0 1,1 100,145 Z" />
+
+    <!-- Inner Dot for Seal -->
+    <path android:fillColor="#00897B" android:pathData="M100,157 A3,3 0 1,1 100,163 A3,3 0 1,1 100,157 Z" />
+
+</vector>

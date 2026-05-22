@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [MANIFEST] Android Application Manifest -->
+<!-- [PURPOSE] Declares app components, permissions, and configuration -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- [PERMISSIONS] Required permissions for app functionality -->
+    <!-- [INTERNET] Required for API communication with backend -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- [CAMERA] Required for capturing evidence photos -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- [LOCATION] Required for identifying jurisdiction -->
+    <!-- [FINE_LOCATION] Precise GPS coordinates for accurate routing -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- [COARSE_LOCATION] Fallback for approximate location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- [PHONE] Required for SOS emergency dialer -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- [FEATURES] Hardware features used by the app -->
+    <!-- [CAMERA FEATURE] Camera is optional - app works without it -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- [QUERIES] Required for Android 11+ to query other apps for intents (browsers, social apps) -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+    </queries>
+
+    <!-- [APPLICATION] Main application configuration -->
+    <application
+        android:name=".NivarApplication"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Nivar"
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:targetApi="31">
+
+        <!-- [METADATA] Privacy Policy URL -->
+        <!-- [COMPLIANCE] Required by Google Play Store -->
+        <meta-data android:name="com.nivar.PRIVACY_POLICY_URL" android:value="https://nivar.in/privacy" />
+
+        <!-- [ACTIVITY] Splash Screen - First screen shown to user -->
+        <!-- [EXPORTED] true - Can be launched by system (LAUNCHER) -->
+        <activity android:name=".ui.screens.SplashActivity" android:exported="true" android:theme="@style/Theme.Nivar.Splash">
+            <intent-filter>
+                <!-- [MAIN] Main entry point for app -->
+                <action android:name="android.intent.action.MAIN" />
+                <!-- [LAUNCHER] Show in app launcher -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- [ACTIVITY] Main Activity - Primary app interface -->
+        <!-- [EXPORTED] false - Only launched from within app -->
+        <activity android:name=".MainActivity" android:exported="false" android:theme="@style/Theme.Nivar">
+        </activity>
+
+        <!-- [WIDGET] SOS Emergency Widget -->
+        <receiver android:name=".ui.widgets.SOSWidgetReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sos_widget_info" />
+        </receiver>
+    </application>
+
+</manifest>

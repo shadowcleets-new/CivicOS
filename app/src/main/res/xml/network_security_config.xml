@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [NETWORK SECURITY CONFIG] Android Network Security Configuration -->
+<!-- [PURPOSE] Enforce HTTPS-only connections and prevent cleartext traffic -->
+<!-- [COMPLIANCE] Google Play Store security requirements -->
+<network-security-config>
+    <!-- [BASE CONFIG] Default security settings for all connections -->
+    <!-- [CLEARTEXT] Disabled - All connections must use HTTPS/TLS -->
+    <base-config cleartextTrafficPermitted="false">
+        <!-- [TRUST ANCHORS] Trust system-installed CA certificates -->
+        <trust-anchors>
+            <!-- [SYSTEM CERTS] Android system certificate store -->
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- [DEVELOPMENT ONLY] Allow localhost for local testing -->
+    <!-- [WARNING] Remove this section before production release -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- [LOCALHOST] Allow HTTP to localhost for development -->
+        <domain includeSubdomains="true">localhost</domain>
+
+        <!-- [EMULATOR] Android Emulator host IP -->
+        <domain includeSubdomains="true">10.0.2.2</domain>
+
+        <!-- [LOCAL NETWORK] Common local development IPs -->
+        <domain includeSubdomains="true">192.168.1.1</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+
+    <!-- [PRODUCTION] Enforce certificate pinning for production API -->
+    <!-- [TODO] Uncomment and configure when production API is deployed -->
+    <!--
+    <domain-config>
+        <domain includeSubdomains="true">api.nivar.in</domain>
+        <pin-set expiration="2027-01-01">
+            <pin digest="SHA-256">BASE64_ENCODED_PUBLIC_KEY_HASH</pin>
+            <pin digest="SHA-256">BACKUP_KEY_HASH</pin>
+        </pin-set>
+    </domain-config>
+    -->
+</network-security-config>

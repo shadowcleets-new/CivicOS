@@ -1,0 +1,26 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Nivar" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/nivar_navy</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/nivar_teal</item>
+        <item name="colorOnSecondary">@color/nivar_navy</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <!-- Splash Screen Background -->
+        <item name="android:windowBackground">@color/nivar_navy</item>
+    </style>
+
+    <!-- Splash Screen Theme - Displays instantly using windowBackground -->
+    <style name="Theme.Nivar.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_bg</item>
+        <item name="android:statusBarColor">@color/nivar_navy</item>
+        <item name="android:navigationBarColor">@color/nivar_navy</item>
+        <!-- Hide action bar for clean splash -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

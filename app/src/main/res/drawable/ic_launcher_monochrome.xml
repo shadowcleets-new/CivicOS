@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nivar Monochrome Icon - For Android 13+ Themed Icons -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="200dp" android:height="200dp" android:viewportWidth="200" android:viewportHeight="200">
+
+    <!-- Shield Outline -->
+    <path android:fillColor="#000000" android:pathData="M100,25
+                         L155,40
+                         L155,100
+                         Q155,140 100,165
+                         Q45,140 45,100
+                         L45,40
+                         Z" />
+
+    <!-- Lotus Symbol (simplified) -->
+    <path android:fillColor="#FFFFFF" android:pathData="M100,60
+                         L95,75 L90,70 L85,75 L90,85
+                         L100,80 L110,85 L115,75 L110,70 L105,75
+                         Z
+                         M100,85 L95,95 L100,105 L105,95 Z" />
+
+    <!-- Simplified Pillar -->
+    <path android:fillColor="#FFFFFF" android:pathData="M95,95 L95,125 L85,125 L85,95 ZM100,95 L100,125 L110,125 L110,95 Z" />
+
+</vector>
