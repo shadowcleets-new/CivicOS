@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     # Database
     POSTGRES_SERVER: str = "localhost"
     POSTGRES_USER: str = "civic_admin"
-    POSTGRES_PASSWORD: str = "civic_password"
+    POSTGRES_PASSWORD: str
     POSTGRES_DB: str = "civicos_db"
     POSTGRES_PORT: int = 5432
     
