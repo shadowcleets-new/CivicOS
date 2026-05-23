@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str = ""
     
     # Security
-    SECRET_KEY: str = "CHANGE_ME_IN_PROD_SUPER_SECRET"
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     CORS_ORIGINS: list[str] = ["http://localhost", "http://localhost:3000", "http://localhost:8000"]
