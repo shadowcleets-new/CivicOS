@@ -1,7 +1,6 @@
 import os
 import requests
 from pyrosm import OSM
-import geopandas as gpd
 import logging
 
 # Configure Logging
