@@ -14,3 +14,5 @@
 .externalNativeBuild
 *.txt
 .kotlin/
+__pycache__
+*.pyc
