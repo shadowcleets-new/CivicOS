@@ -66,7 +66,7 @@ class OfficialSpider(scrapy.Spider):
         """
         Placeholder for OCR logic.
         """
-        # response = requests.get(image_url)
+        # response = requests.get(image_url, timeout=30)
         # img = Image.open(BytesIO(response.content))
         # text = pytesseract.image_to_string(img)
         # return text
