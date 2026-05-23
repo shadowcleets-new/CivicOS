@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import update
 from sqlalchemy.orm import Session
 from typing import List
 from pydantic import BaseModel
@@ -47,9 +48,18 @@ def read_grievance(report_id: uuid.UUID, db: Session = Depends(get_db)):
 
 @router.post("/{report_id}/upvote")
 def upvote_grievance(report_id: uuid.UUID, db: Session = Depends(get_db)):
-    report = db.query(Grievance).filter(Grievance.id == report_id).first()
-    if not report:
+    # ⚡ Bolt: Use atomic update for upvotes to prevent race conditions and halve DB roundtrips
+    stmt = (
+        update(Grievance)
+        .where(Grievance.id == report_id)
+        .values(upvotes=Grievance.upvotes + 1)
+        .returning(Grievance.upvotes)
+    )
+    result = db.execute(stmt)
+    new_count = result.scalar()
+
+    if new_count is None:
         raise HTTPException(status_code=404, detail="Not found")
-    report.upvotes += 1
+
     db.commit()
-    return {"status": "success", "new_count": report.upvotes}
+    return {"status": "success", "new_count": new_count}
