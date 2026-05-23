@@ -270,6 +270,7 @@ fun NivarApp(
                     )
                 }
                 composable("grievance") { GrievanceScreen() }
+                composable("agent") { AgentScreen() }
             }
         }
     }
@@ -291,7 +292,7 @@ fun MoreScreen(
 
         MoreItem("Profile", Icons.Default.Person) { navController.navigate("profile") }
         MoreItem("Settings", Icons.Default.Settings) { navController.navigate("settings") }
-        MoreItem("Help & Feedback", Icons.Default.Help) { /* TODO */ }
+        MoreItem("Help & Feedback", Icons.Default.Help) { navController.navigate("agent") }
         
         Spacer(modifier = Modifier.weight(1f))
         
