@@ -2,9 +2,6 @@ import scrapy
 import re
 import logging
 from urllib.parse import urljoin
-# import pytesseract # Uncomment if Tesseract is installed and needed
-# from PIL import Image
-# from io import BytesIO
 
 class OfficialSpider(scrapy.Spider):
     name = "officials"
@@ -66,8 +63,4 @@ class OfficialSpider(scrapy.Spider):
         """
         Placeholder for OCR logic.
         """
-        # response = requests.get(image_url)
-        # img = Image.open(BytesIO(response.content))
-        # text = pytesseract.image_to_string(img)
-        # return text
         pass
