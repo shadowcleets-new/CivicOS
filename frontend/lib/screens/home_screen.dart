@@ -43,11 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Semantics(
               button: true,
-              label: 'Trigger Emergency SOS',
+              label: _isLoading ? 'Locating emergency services...' : 'Trigger Emergency SOS',
               child: Material(
-                color: Colors.red,
+                color: _isLoading ? Colors.red.shade300 : Colors.red,
                 shape: const CircleBorder(),
-                elevation: 10,
+                elevation: _isLoading ? 2 : 10,
                 shadowColor: Colors.red.withValues(alpha: 0.5),
                 child: InkWell(
                   onTap: _isLoading ? null : _handlePanic,
@@ -65,12 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                _status,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            Semantics(
+              liveRegion: true,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  _status,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
           ],
