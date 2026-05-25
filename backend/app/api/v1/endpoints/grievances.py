@@ -15,7 +15,7 @@ class GrievanceCreate(BaseModel):
     lat: str
     long: str
     category: str
-    image_url: str = None
+    image_url: str | None = None
 
 class GrievanceOut(GrievanceCreate):
     id: uuid.UUID
