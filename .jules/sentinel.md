@@ -1,4 +1,4 @@
-## 2024-05-23 - Overly Permissive CORS Policy
-**Vulnerability:** Found `allow_origins=["*"]` configured with `allow_credentials=True` in FastAPI CORS Middleware. This allows any domain to perform authenticated requests and read responses, violating the same-origin policy and leading to potential data exposure.
-**Learning:** Browsers generally reject or warn against `*` origin when credentials are allowed. Best practice is to require explicit origins for CORS when credentials are used.
-**Prevention:** Always define a strict, configurable list of allowed origins (e.g., in a `Settings` class using environment variables). Default to safe local origins during development, and never use `*` when credentials are permitted.
+## 2024-05-23 - Hardcoded Database Credentials in Pydantic Config
+**Vulnerability:** The `POSTGRES_PASSWORD` was hardcoded to a default value in the `Settings` class (`backend/app/core/config.py`).
+**Learning:** Hardcoding credentials in source code exposes them to anyone with repository access. Even if intended for local development, it can leak to production.
+**Prevention:** Rely on `pydantic_settings` to inject secrets via environment variables by defining the variable type without providing a default value.

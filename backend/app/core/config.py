@@ -8,17 +8,18 @@ class Settings(BaseSettings):
     # Database
     POSTGRES_SERVER: str = "localhost"
     POSTGRES_USER: str = "civic_admin"
-    POSTGRES_PASSWORD: str = "civic_password"
+    POSTGRES_PASSWORD: str
     POSTGRES_DB: str = "civicos_db"
     POSTGRES_PORT: int = 5432
     
     # AI Keys
-    GOOGLE_API_KEY: str = ""
+    GOOGLE_API_KEY: str
     
     # Security
-    SECRET_KEY: str = "CHANGE_ME_IN_PROD_SUPER_SECRET"
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    CORS_ORIGINS: list[str] = ["http://localhost", "http://localhost:3000", "http://localhost:8000"]
 
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:

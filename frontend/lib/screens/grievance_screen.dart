@@ -25,6 +25,7 @@ class GrievanceScreen extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {}, 
+                  tooltip: 'Capture grievance photo',
                   icon: const Icon(Icons.camera, size: 50, color: Colors.blue)
                 ),
                 const Text("AI Analyzing: Pothole Detected..."),
