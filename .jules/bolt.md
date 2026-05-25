@@ -1,0 +1,3 @@
+## 2026-05-25 - Fixing Android LocationUtils Testing Dependencies
+**Learning:** Testing Kotlin code that relies on Android framework statics (like `ContextCompat.checkSelfPermission`) and implicit initializations (like Play Services `LocationServices.getFusedLocationProviderClient`) requires precise setup using MockK's `mockkStatic` and correctly overriding those statics before initializing the class under test.
+**Action:** When writing tests for utility classes, inspect the class's properties to verify if any dependencies are eagerly instantiated during object creation, and explicitly mock them to prevent runtime crashes in tests.
