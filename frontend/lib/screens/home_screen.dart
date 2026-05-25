@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,32 +41,39 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: _handlePanic,
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(color: Colors.red.withOpacity(0.5), blurRadius: 20, spreadRadius: 5)
-                  ],
-                ),
-                child: Center(
-                  child: _isLoading 
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text("SOS", style: TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
+            Semantics(
+              button: true,
+              label: 'Trigger Emergency SOS',
+              child: Material(
+                color: Colors.red,
+                shape: const CircleBorder(),
+                elevation: 10,
+                shadowColor: Colors.red.withValues(alpha: 0.5),
+                child: InkWell(
+                  onTap: _isLoading ? null : _handlePanic,
+                  customBorder: const CircleBorder(),
+                  child: SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Center(
+                      child: _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text("SOS", style: TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text(
-                _status,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              child: Semantics(
+                liveRegion: true,
+                child: Text(
+                  _status,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
           ],
