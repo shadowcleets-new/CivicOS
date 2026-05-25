@@ -19,6 +19,7 @@
 
     <!-- [PHONE] Required for SOS emergency dialer -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
 
     <!-- [FEATURES] Hardware features used by the app -->
     <!-- [CAMERA FEATURE] Camera is optional - app works without it -->
