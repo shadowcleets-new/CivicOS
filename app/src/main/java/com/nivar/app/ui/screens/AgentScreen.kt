@@ -13,6 +13,10 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import android.net.Uri
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -97,6 +101,19 @@ fun AgentScreen() {
             messages = messages + response
         }
     }
+
+    val documentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            messages = messages + ChatMessage(java.util.UUID.randomUUID().toString(), "Attached document: ${uri.lastPathSegment ?: "File"}", true)
+            handleAgentResponse("Attached document")
+        }
+    }
+
+
+
+
 
     fun onOptionSelected(option: String) {
         messages = messages + ChatMessage(java.util.UUID.randomUUID().toString(), option, true)
@@ -234,7 +251,7 @@ fun AgentScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Attachment button
-                    IconButton(onClick = { /* TODO */ }, modifier = Modifier.size(40.dp)) {
+                    IconButton(onClick = { documentLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                         Icon(
                             Icons.Default.AttachFile,
                             contentDescription = "Attach",
