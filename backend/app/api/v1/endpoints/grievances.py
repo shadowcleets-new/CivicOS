@@ -9,13 +9,15 @@ import uuid
 router = APIRouter()
 
 # Schema (Pydantic)
+from typing import Optional
+
 class GrievanceCreate(BaseModel):
     title: str
     description: str
     lat: str
     long: str
     category: str
-    image_url: str = None
+    image_url: Optional[str] = None
 
 class GrievanceOut(GrievanceCreate):
     id: uuid.UUID
@@ -34,8 +36,23 @@ def create_grievance(report: GrievanceCreate, db: Session = Depends(get_db)):
     return db_report
 
 @router.get("/", response_model=List[GrievanceOut])
-def read_grievances(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    reports = db.query(Grievance).offset(skip).limit(limit).all()
+def read_grievances(limit: int = 100, cursor: uuid.UUID = None, db: Session = Depends(get_db)):
+    from sqlalchemy import or_, and_
+    query = db.query(Grievance).order_by(Grievance.created_at.desc(), Grievance.id.desc())
+
+    if cursor:
+        cursor_grievance = db.query(Grievance).filter(Grievance.id == cursor).first()
+        if cursor_grievance:
+            query = query.filter(
+                or_(
+                    Grievance.created_at < cursor_grievance.created_at,
+                    and_(Grievance.created_at == cursor_grievance.created_at, Grievance.id < cursor_grievance.id)
+                )
+            )
+        else:
+            raise HTTPException(status_code=400, detail="Invalid cursor")
+
+    reports = query.limit(limit).all()
     return reports
 
 @router.get("/{report_id}", response_model=GrievanceOut)
