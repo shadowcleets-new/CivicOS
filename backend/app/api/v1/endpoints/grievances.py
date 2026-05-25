@@ -27,7 +27,7 @@ class GrievanceOut(GrievanceCreate):
 
 @router.post("/", response_model=GrievanceOut)
 def create_grievance(report: GrievanceCreate, db: Session = Depends(get_db)):
-    db_report = Grievance(**report.dict())
+    db_report = Grievance(**report.model_dump())
     db.add(db_report)
     db.commit()
     db.refresh(db_report)
