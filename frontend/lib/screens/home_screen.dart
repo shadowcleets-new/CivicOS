@@ -43,11 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Semantics(
               button: true,
-              label: _isLoading ? 'Locating emergency services...' : 'Trigger Emergency SOS',
+              label: 'Trigger Emergency SOS',
               child: Material(
-                color: _isLoading ? Colors.red.shade300 : Colors.red,
+                color: Colors.red,
                 shape: const CircleBorder(),
-                elevation: _isLoading ? 2 : 10,
+                elevation: 10,
                 shadowColor: Colors.red.withValues(alpha: 0.5),
                 child: InkWell(
                   onTap: _isLoading ? null : _handlePanic,
