@@ -23,6 +23,7 @@ class OfficialSpider(scrapy.Spider):
 
     # Pre-compile regexes at the class level for performance
     # This prevents recompiling these expressions on every page crawl
+    # Pre-compiled regular expressions for performance optimization
     mobile_pattern = re.compile(r'(?:\+91[\-\s]?)?[6789]\d{9}')
     landline_pattern = re.compile(r'0\d{2,4}[\-\s]?\d{6,8}')
     designation_pattern = re.compile(r'(?i)(Commissioner|Collector|Magistrate|Engineer|SHO|Inspector|Tahsildar|Health Officer)')
@@ -39,6 +40,8 @@ class OfficialSpider(scrapy.Spider):
         
         # Landlines: STD code (0\d{2,4}) followed by 6-8 digits
         landlines = set(self.landline_pattern.findall(text))
+        
+        # Designations
         
         # Context extraction: Try to find "Name" near "Phone"
         # This is hard to do purely with regex on full text. 

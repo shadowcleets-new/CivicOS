@@ -5,7 +5,7 @@ from pydantic_core import ValidationError
 from app.core.config import Settings
 
 class TestConfig(unittest.TestCase):
-    @patch.dict(os.environ, {}, clear=True)
+    @patch.dict(os.environ, {'POSTGRES_PASSWORD': 'test_password', 'GOOGLE_API_KEY': 'test_key'}, clear=True)
     def test_settings_missing_secret_key(self):
         # Temporarily disable env_file reading to avoid loading from a local .env
         class TestSettings(Settings):
@@ -16,7 +16,7 @@ class TestConfig(unittest.TestCase):
         with self.assertRaises(ValidationError):
             TestSettings()
 
-    @patch.dict(os.environ, {'SECRET_KEY': 'test_secret_key_123'}, clear=True)
+    @patch.dict(os.environ, {'SECRET_KEY': 'test_secret_key_123', 'POSTGRES_PASSWORD': 'test_password', 'GOOGLE_API_KEY': 'test_key'}, clear=True)
     def test_settings_with_secret_key(self):
         class TestSettings(Settings):
             class Config:
