@@ -2,9 +2,6 @@ import scrapy
 import re
 import logging
 from urllib.parse import urljoin
-# import pytesseract # Uncomment if Tesseract is installed and needed
-# from PIL import Image
-# from io import BytesIO
 
 class OfficialSpider(scrapy.Spider):
     name = "officials"
