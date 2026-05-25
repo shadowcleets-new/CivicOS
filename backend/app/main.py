@@ -1,4 +1,6 @@
+from fastapi import FastAPI
 from app.api.v1.api import api_router
+from app.core.config import settings
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -7,9 +9,15 @@ app = FastAPI(
 
 # CORS
 from fastapi.middleware.cors import CORSMiddleware
+# GZip Compression for performance (reduces payload size)
+from fastapi.middleware.gzip import GZipMiddleware
+
+# Add compression middleware to speed up large responses
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
