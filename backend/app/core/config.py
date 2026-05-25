@@ -3,16 +3,17 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     PROJECT_NAME: str = "CivicOS"
     API_V1_STR: str = "/api/v1"
+    BACKEND_CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:8000"]
     
     # Database
     POSTGRES_SERVER: str = "localhost"
     POSTGRES_USER: str = "civic_admin"
-    POSTGRES_PASSWORD: str = "civic_password"
+    POSTGRES_PASSWORD: str
     POSTGRES_DB: str = "civicos_db"
     POSTGRES_PORT: int = 5432
     
     # AI Keys
-    GOOGLE_API_KEY: str = ""
+    GOOGLE_API_KEY: str
     
     # Security
     SECRET_KEY: str

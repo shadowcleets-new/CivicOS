@@ -9,6 +9,11 @@ app = FastAPI(
 
 # CORS
 from fastapi.middleware.cors import CORSMiddleware
+# GZip Compression for performance (reduces payload size)
+from fastapi.middleware.gzip import GZipMiddleware
+
+# Add compression middleware to speed up large responses
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 app.add_middleware(
     CORSMiddleware,
