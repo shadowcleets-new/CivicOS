@@ -1,7 +1,6 @@
 import os
 import requests
 from pyrosm import OSM
-import geopandas as gpd
 import logging
 
 # Configure Logging
@@ -27,7 +26,7 @@ def download_osm_data(url, save_path):
 
     logger.info(f"Downloading OSM data from {url}...")
     try:
-        with requests.get(url, stream=True) as r:
+        with requests.get(url, stream=True, timeout=30) as r:
             r.raise_for_status()
             with open(save_path, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):

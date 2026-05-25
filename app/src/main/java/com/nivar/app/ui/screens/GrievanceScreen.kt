@@ -386,6 +386,7 @@ fun GrievanceScreen(
                                     Text("Amplify on X", color = Color.White, fontWeight = FontWeight.Bold)
                                 }
                                 Spacer(modifier = Modifier.height(8.dp))
+                                val emailSubject = selectedCategory?.let { androidx.compose.ui.res.stringResource(R.string.grievance_email_subject, title, it.name) } ?: ""
                                 OutlinedButton(
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(8.dp),
@@ -394,7 +395,7 @@ fun GrievanceScreen(
                                             data = "mailto:".toUri()
                                             putExtra(Intent.EXTRA_EMAIL, arrayOf("commissioner@bbmp.gov.in"))
                                             putExtra(Intent.EXTRA_CC, arrayOf("admin@nivar.in"))
-                                            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.grievance_email_subject, title, selectedCategory!!.name))
+                                            putExtra(Intent.EXTRA_SUBJECT, emailSubject)
                                             putExtra(Intent.EXTRA_TEXT, "Using Nivar App:\n\n$description\n\nLocation: 0.0, 0.0\n\nPlease resolve immediately.")
                                         }
                                         try {

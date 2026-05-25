@@ -31,6 +31,14 @@ import com.nivar.app.ui.theme.NivarIce
 import com.nivar.app.ui.theme.PureWhite
 import kotlinx.coroutines.launch
 
+import android.net.Uri
+import android.provider.OpenableColumns
+import android.content.Context
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+
+
 // ===== Data Model =====
 data class ChatMessage(
     val id: String,
@@ -38,6 +46,33 @@ data class ChatMessage(
     val isUser: Boolean,
     val options: List<String> = emptyList()
 )
+
+
+// ===== Helper Function =====
+fun getFileName(context: Context, uri: Uri): String? {
+    var result: String? = null
+    if (uri.scheme == "content") {
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (index != -1) {
+                    result = cursor.getString(index)
+                }
+            }
+        } finally {
+            cursor?.close()
+        }
+    }
+    if (result == null) {
+        result = uri.path
+        val cut = result?.lastIndexOf('/')
+        if (cut != null && cut != -1) {
+            result = result?.substring(cut + 1)
+        }
+    }
+    return result
+}
 
 // ===== Civic AI Assistant Screen =====
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,6 +136,17 @@ fun AgentScreen() {
     fun onOptionSelected(option: String) {
         messages = messages + ChatMessage(java.util.UUID.randomUUID().toString(), option, true)
         handleAgentResponse(option)
+    }
+
+
+    val context = LocalContext.current
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            val fileName = getFileName(context, it) ?: "Unknown file"
+            onOptionSelected("Attached file: $fileName")
+        }
     }
 
     Column(
@@ -234,7 +280,7 @@ fun AgentScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Attachment button
-                    IconButton(onClick = { /* TODO */ }, modifier = Modifier.size(40.dp)) {
+                    IconButton(onClick = { filePickerLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                         Icon(
                             Icons.Default.AttachFile,
                             contentDescription = "Attach",

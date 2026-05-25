@@ -14,7 +14,7 @@ class CivicOSApp extends StatelessWidget {
     return MaterialApp(
       title: 'CivicOS',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFF9933)), # Saffron-ish
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFF9933)), // Saffron-ish
         useMaterial3: true,
       ),
       home: const MainWrapper(),
