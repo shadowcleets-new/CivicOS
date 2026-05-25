@@ -30,6 +30,13 @@ import com.nivar.app.ui.theme.NivarSky
 import com.nivar.app.ui.theme.NivarIce
 import com.nivar.app.ui.theme.PureWhite
 import kotlinx.coroutines.launch
+import android.content.Intent
+import android.speech.RecognizerIntent
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 
 import android.net.Uri
 import android.provider.OpenableColumns
@@ -89,6 +96,17 @@ fun AgentScreen() {
     )) }
     var isTyping by remember { mutableStateOf(false) }
     var inputText by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val speechLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val spokenText = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)
+            if (!spokenText.isNullOrBlank()) {
+                inputText = spokenText
+            }
+        }
+    }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(messages.size, isTyping) {
@@ -306,7 +324,17 @@ fun AgentScreen() {
                     Spacer(modifier = Modifier.width(4.dp))
 
                     // Voice input
-                    IconButton(onClick = { /* TODO */ }, modifier = Modifier.size(40.dp)) {
+                    IconButton(onClick = {
+                        try {
+                            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                                putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak now...")
+                            }
+                            speechLauncher.launch(intent)
+                        } catch (e: Exception) {
+                            Toast.makeText(context, "Voice input not supported on this device", Toast.LENGTH_SHORT).show()
+                        }
+                    }, modifier = Modifier.size(40.dp)) {
                         Icon(
                             Icons.Default.Mic,
                             contentDescription = "Voice",
