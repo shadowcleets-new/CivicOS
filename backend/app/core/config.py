@@ -7,12 +7,12 @@ class Settings(BaseSettings):
     # Database
     POSTGRES_SERVER: str = "localhost"
     POSTGRES_USER: str = "civic_admin"
-    POSTGRES_PASSWORD: str = "civic_password"
+    POSTGRES_PASSWORD: str
     POSTGRES_DB: str = "civicos_db"
     POSTGRES_PORT: int = 5432
     
     # AI Keys
-    GOOGLE_API_KEY: str = ""
+    GOOGLE_API_KEY: str
     
     # Security
     SECRET_KEY: str
