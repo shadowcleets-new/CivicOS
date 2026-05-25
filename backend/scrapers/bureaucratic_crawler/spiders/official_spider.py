@@ -21,6 +21,8 @@ class OfficialSpider(scrapy.Spider):
         'ROBOTSTXT_OBEY': False # Often gov sites block bots, but we are "public interest"
     }
 
+    # Pre-compile regexes at the class level for performance
+    # This prevents recompiling these expressions on every page crawl
     # Pre-compiled regular expressions for performance optimization
     mobile_pattern = re.compile(r'(?:\+91[\-\s]?)?[6789]\d{9}')
     landline_pattern = re.compile(r'0\d{2,4}[\-\s]?\d{6,8}')
