@@ -67,10 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text(
-                _status,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              child: Semantics(
+                liveRegion: true,
+                child: Text(
+                  _status,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
           ],
