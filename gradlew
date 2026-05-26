@@ -280,13 +280,8 @@ eval "set -- $(
         sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
         tr '\n' ' '
     )" '"$@"'
-        JAVACMD="$JAVA_HOME/jre/sh/java"
-    else
-        JAVACMD="$JAVA_HOME/bin/java"
-    fi
-else
-    JAVACMD="java"
-fi
+
+exec "$JAVACMD" "$@"
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false
