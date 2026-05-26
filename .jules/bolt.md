@@ -1,1 +1,4 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+## 2024-05-23 - Database Index Tests
+**Learning:** Adding database indexes can uncover issues in test assertions that rely on the implicit insertion order of test rows. Ensure queries using pagination are tested robustly by avoiding false positive assertions where sequential elements might match unexpectedly without strict assertions.
+**Action:** When adding database indexes, verify that pagination tests actually test order properly by comparing a set of returned results or counting remaining results based on explicit sorting criteria.

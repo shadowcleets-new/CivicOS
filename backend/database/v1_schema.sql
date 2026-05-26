@@ -64,6 +64,10 @@ CREATE TABLE IF NOT EXISTS grievances (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- ⚡ Bolt Performance Optimization: Composite index for cursor-based pagination
+-- This prevents full table scans when ordering by created_at DESC, id DESC
+CREATE INDEX IF NOT EXISTS ix_grievances_created_at_id_desc ON grievances (created_at DESC, id DESC);
+
 -- 5. COMMUNITY INTERACTION
 CREATE TABLE IF NOT EXISTS votes (
     user_id UUID REFERENCES users(id),
