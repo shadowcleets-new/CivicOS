@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import or_, and_
 from typing import List
 from pydantic import BaseModel
 from app.core.database import get_db
@@ -38,7 +39,6 @@ def create_grievance(report: GrievanceCreate, db: Session = Depends(get_db)):
 
 @router.get("/", response_model=List[GrievanceOut])
 def read_grievances(limit: int = 100, cursor: uuid.UUID = None, db: Session = Depends(get_db)):
-    from sqlalchemy import or_, and_
     query = db.query(Grievance).order_by(Grievance.created_at.desc(), Grievance.id.desc())
 
     if cursor:
