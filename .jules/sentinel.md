@@ -11,3 +11,8 @@
 **Vulnerability:** The `POSTGRES_PASSWORD` was hardcoded to a default value in the `Settings` class (`backend/app/core/config.py`).
 **Learning:** Hardcoding credentials in source code exposes them to anyone with repository access. Even if intended for local development, it can leak to production.
 **Prevention:** Rely on `pydantic_settings` to inject secrets via environment variables by defining the variable type without providing a default value.
+
+## 2024-05-24 - SSRF/MITM Vulnerability
+**Vulnerability:** The script `backend/scripts/crisis_agent_setup.py` used `requests.get(url, headers=headers, stream=True, verify=False, timeout=30)` to download files.
+**Learning:** Using `verify=False` in requests disables SSL certificate validation, exposing the application to Man-In-The-Middle (MITM) attacks where an attacker can intercept and modify the downloaded files. This was mistakenly added assuming government websites always have invalid certificates, but testing proved otherwise.
+**Prevention:** Never use `verify=False` in production or critical scripts unless there is a well-documented and highly specific reason, and even then, consider alternatives like providing a custom CA bundle. Always verify if the certificates are actually invalid before disabling validation.
