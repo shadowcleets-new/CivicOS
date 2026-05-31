@@ -1,1 +1,4 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+## 2024-06-03 - Keyset Pagination Non-Determinism in Tests
+**Learning:** When using keyset pagination with `order_by(created_at.desc(), id.desc())`, bulk inserting test records will create identical timestamps, making strict index-based assertions (like `assert data[0]["title"] == ...`) flaky and non-deterministic because the DB resolves the tie based on an arbitrary default order.
+**Action:** Always use set-based assertions (e.g. `assert "Title" in {d["title"] for d in data}`) when verifying the content of paginated responses unless precise delays are inserted between test data creation.

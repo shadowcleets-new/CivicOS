@@ -1,3 +1,10 @@
+import sys
+from unittest.mock import MagicMock
+
+# Mock pyrosm and geopandas before importing app modules
+sys.modules['pyrosm'] = MagicMock()
+sys.modules['geopandas'] = MagicMock()
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -54,9 +61,3 @@ def client(db):
         yield c
     # Remove the override
     app.dependency_overrides.clear()
-from app.main import app
-
-@pytest.fixture(scope="module")
-def client():
-    with TestClient(app) as c:
-        yield c
