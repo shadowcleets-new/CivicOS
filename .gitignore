@@ -18,3 +18,6 @@ venv/
 __pycache__/
 *.pyc
 *.log
+frontend/.dart_tool/
+frontend/build/
+frontend/.flutter-plugins-dependencies
