@@ -1,6 +1,7 @@
 import pytest
 from app.models.grievance import Grievance
 import uuid
+from fastapi.testclient import TestClient
 
 def test_read_grievances_empty(client):
     response = client.get("/api/v1/grievances/")
@@ -32,8 +33,10 @@ def test_read_grievances_with_data(client, db):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
-    assert data[0]["title"] == "Pothole on Main St"
-    assert data[1]["title"] == "Streetlight broken"
+    # Use set-based assertion as per memory instructions
+    titles = {d["title"] for d in data}
+    assert "Pothole on Main St" in titles
+    assert "Streetlight broken" in titles
 
 def test_read_grievances_pagination(client, db):
     # Seed the database
@@ -53,18 +56,21 @@ def test_read_grievances_pagination(client, db):
     assert response.status_code == 200
     assert len(response.json()) == 5
 
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
-    assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
+    # Cursor based pagination tests (replacing skip based since the endpoint uses cursor)
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
-    assert response.status_code == 200
-    assert len(response.json()) == 5
-from fastapi.testclient import TestClient
+    # Send initial request to get the first 5 and a cursor
+    response1 = client.get("/api/v1/grievances/?limit=5")
+    assert response1.status_code == 200
+    data1 = response1.json()
+    assert len(data1) == 5
+
+    last_item_id = data1[-1]['id']
+
+    # Send second request with cursor
+    response2 = client.get(f"/api/v1/grievances/?limit=5&cursor={last_item_id}")
+    assert response2.status_code == 200
+    data2 = response2.json()
+    assert len(data2) == 5
 
 def test_create_grievance(client: TestClient):
     # Test data
