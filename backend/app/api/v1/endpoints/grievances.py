@@ -44,6 +44,8 @@ def read_grievances(limit: int = 100, cursor: uuid.UUID = None, db: Session = De
     if cursor:
         cursor_grievance = db.query(Grievance).filter(Grievance.id == cursor).first()
         if cursor_grievance:
+            # We want records strictly "less than" the cursor according to the descending sort order.
+            # This means older created_at, or same created_at but "smaller" id.
             query = query.filter(
                 or_(
                     Grievance.created_at < cursor_grievance.created_at,
