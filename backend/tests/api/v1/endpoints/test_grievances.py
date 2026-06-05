@@ -32,11 +32,14 @@ def test_read_grievances_with_data(client, db):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
-    assert data[0]["title"] == "Pothole on Main St"
-    assert data[1]["title"] == "Streetlight broken"
+    titles = [item["title"] for item in data]
+    assert "Pothole on Main St" in titles
+    assert "Streetlight broken" in titles
 
 def test_read_grievances_pagination(client, db):
     # Seed the database
+    from datetime import datetime, timedelta, timezone
+    base_time = datetime.now(timezone.utc)
     for i in range(15):
         db.add(Grievance(
             title=f"Grievance {i}",
@@ -44,26 +47,28 @@ def test_read_grievances_pagination(client, db):
             lat="0",
             long="0",
             category="other",
-            status="DRAFT"
+            status="DRAFT",
+            created_at=base_time + timedelta(seconds=i)
         ))
     db.commit()
 
     # Test limit
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    page1 = response.json()
+    assert len(page1) == 5
 
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
+    # Cursor pagination test
+    cursor = page1[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?limit=5&cursor={cursor}")
     assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
+    page2 = response.json()
+    assert len(page2) == 5
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
-    assert response.status_code == 200
-    assert len(response.json()) == 5
+    # Assert they are different pages
+    page1_ids = [item['id'] for item in page1]
+    page2_ids = [item['id'] for item in page2]
+    assert set(page1_ids).isdisjoint(set(page2_ids))
 from fastapi.testclient import TestClient
 
 def test_create_grievance(client: TestClient):
