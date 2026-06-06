@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+
 -- 2. DEPARTMENTS (Static/Scraped Master Data)
 CREATE TABLE IF NOT EXISTS departments (
     id SERIAL PRIMARY KEY,
@@ -63,6 +64,9 @@ CREATE TABLE IF NOT EXISTS grievances (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS idx_grievances_created_at ON grievances (created_at DESC);
+
 
 -- 5. COMMUNITY INTERACTION
 CREATE TABLE IF NOT EXISTS votes (
