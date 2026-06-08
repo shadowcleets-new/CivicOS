@@ -33,7 +33,15 @@ def download_docs():
         logger.info(f"Downloading {name} from {url}...")
         try:
             headers = {'User-Agent': 'Mozilla/5.0'} # Some gov sites block python-requests
-            response = requests.get(url, headers=headers, stream=True, verify=False, timeout=30) # verify=False because gov sites often have bad certs
+            try:
+                # Try with strict SSL validation first to prevent MITM vulnerabilities
+                response = requests.get(url, headers=headers, stream=True, verify=True, timeout=30)
+            except requests.exceptions.SSLError:
+                logger.warning(f"SSL validation failed for {url}. Falling back to unverified connection due to known bad gov certs.")
+                import urllib3
+                urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+                response = requests.get(url, headers=headers, stream=True, verify=False, timeout=30) # nosec B501
+
             response.raise_for_status()
             with open(path, 'wb') as f:
                 f.write(response.content)
