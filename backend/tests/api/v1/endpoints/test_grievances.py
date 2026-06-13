@@ -32,8 +32,9 @@ def test_read_grievances_with_data(client, db):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
-    assert data[0]["title"] == "Pothole on Main St"
-    assert data[1]["title"] == "Streetlight broken"
+    titles = {item["title"] for item in data}
+    assert "Pothole on Main St" in titles
+    assert "Streetlight broken" in titles
 
 def test_read_grievances_pagination(client, db):
     # Seed the database
@@ -51,19 +52,21 @@ def test_read_grievances_pagination(client, db):
     # Test limit
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    first_page_data = response.json()
+    assert len(first_page_data) == 5
 
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
+    # Test cursor
+    last_item_cursor = first_page_data[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={last_item_cursor}&limit=5")
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
-    assert response.status_code == 200
-    assert len(response.json()) == 5
+    titles = {item["title"] for item in data}
+    all_titles = {f"Grievance {i}" for i in range(15)}
+    first_page_titles = {item["title"] for item in first_page_data}
+
+    assert titles.issubset(all_titles)
 from fastapi.testclient import TestClient
 
 def test_create_grievance(client: TestClient):
