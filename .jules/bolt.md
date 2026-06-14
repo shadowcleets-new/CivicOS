@@ -1,1 +1,4 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+## 2024-06-14 - [Add Index on Keysets Pagination]
+**Learning:** In SQLAlchemy models, ensure frequently sorted columns (like `created_at` used for keyset pagination) have `index=True` to prevent O(N log N) full table sorts, particularly for performance-critical public feeds.
+**Action:** Always verify database indexes on columns used in `order_by` clauses, and remember to update raw SQL schema files (`v1_schema.sql`) alongside the SQLAlchemy model.
