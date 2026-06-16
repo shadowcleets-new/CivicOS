@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:camera/camera.dart'; 
 
 class GrievanceScreen extends StatelessWidget {
   const GrievanceScreen({super.key});
@@ -24,11 +23,18 @@ class GrievanceScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () {}, 
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Feature coming soon")),
+                    );
+                  },
                   tooltip: 'Capture grievance photo',
                   icon: const Icon(Icons.camera, size: 50, color: Colors.blue)
                 ),
-                const Text("AI Analyzing: Pothole Detected..."),
+                Semantics(
+                  liveRegion: true,
+                  child: const Text("AI Analyzing: Pothole Detected..."),
+                ),
               ],
             ),
           ),
