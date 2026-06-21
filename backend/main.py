@@ -1,7 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 import uvicorn
-import os
 
 app = FastAPI(title="CivicOS Backend", version="MVP-0.1")
 
