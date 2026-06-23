@@ -9,7 +9,10 @@ def test_read_grievances_empty(client):
 
 def test_read_grievances_with_data(client, db):
     # Seed the database
+    from datetime import datetime, timedelta, timezone
+    base_time = datetime.now(timezone.utc)
     grievance1 = Grievance(
+        created_at=base_time,
         title="Pothole on Main St",
         description="Large pothole causing damage to cars.",
         lat="40.7128",
@@ -18,6 +21,7 @@ def test_read_grievances_with_data(client, db):
         status="DRAFT"
     )
     grievance2 = Grievance(
+        created_at=base_time - timedelta(seconds=1),
         title="Streetlight broken",
         description="Streetlight is out on 5th Ave.",
         lat="40.7580",
@@ -54,18 +58,24 @@ def test_read_grievances_pagination(client, db):
     # Test limit
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 5
-
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
-    assert response.status_code == 200
     data = response.json()
     assert len(data) == 5
 
-    # Test limit beyond total
-    response = client.get("/api/v1/grievances/?limit=20")
+    cursor_id = data[-1]["id"]
+
+    # Test cursor pagination
+    response = client.get(f"/api/v1/grievances/?cursor={cursor_id}&limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 15
+    data2 = response.json()
+    assert len(data2) == 5
+    assert data2[0]["title"] == "Grievance 5"
+
+    cursor_id_2 = data2[-1]["id"]
+
+    # Test beyond total
+    response = client.get(f"/api/v1/grievances/?cursor={cursor_id_2}&limit=10")
+    assert response.status_code == 200
+    assert len(response.json()) == 5
 from fastapi.testclient import TestClient
 
 def test_create_grievance(client: TestClient):

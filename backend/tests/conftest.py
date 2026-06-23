@@ -1,5 +1,4 @@
 from app.main import app
-
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
