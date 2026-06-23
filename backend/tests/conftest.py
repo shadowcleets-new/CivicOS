@@ -1,10 +1,11 @@
+from app.main import app
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from app.main import app
+
 from app.core.database import Base, get_db
 from app.models.grievance import Grievance
 import uuid
@@ -54,9 +55,4 @@ def client(db):
         yield c
     # Remove the override
     app.dependency_overrides.clear()
-from app.main import app
 
-@pytest.fixture(scope="module")
-def client():
-    with TestClient(app) as c:
-        yield c
