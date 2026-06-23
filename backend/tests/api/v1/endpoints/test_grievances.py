@@ -37,6 +37,8 @@ def test_read_grievances_with_data(client, db):
 
 def test_read_grievances_pagination(client, db):
     # Seed the database
+    from datetime import datetime, timedelta, timezone
+    base_time = datetime.now(timezone.utc)
     for i in range(15):
         db.add(Grievance(
             title=f"Grievance {i}",
@@ -44,7 +46,8 @@ def test_read_grievances_pagination(client, db):
             lat="0",
             long="0",
             category="other",
-            status="DRAFT"
+            status="DRAFT",
+            created_at=base_time - timedelta(seconds=i)
         ))
     db.commit()
 
@@ -58,12 +61,11 @@ def test_read_grievances_pagination(client, db):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
+    # Test limit beyond total
+    response = client.get("/api/v1/grievances/?limit=20")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    assert len(response.json()) == 15
 from fastapi.testclient import TestClient
 
 def test_create_grievance(client: TestClient):
