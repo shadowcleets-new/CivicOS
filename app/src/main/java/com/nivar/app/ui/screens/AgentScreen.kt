@@ -16,6 +16,9 @@ import androidx.compose.runtime.*
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import android.net.Uri
+import android.provider.OpenableColumns
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,13 +37,6 @@ import com.nivar.app.ui.theme.NivarSky
 import com.nivar.app.ui.theme.NivarIce
 import com.nivar.app.ui.theme.PureWhite
 import kotlinx.coroutines.launch
-
-import android.net.Uri
-import android.provider.OpenableColumns
-import android.content.Context
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.ui.platform.LocalContext
 
 
 // ===== Data Model =====
@@ -297,7 +293,6 @@ fun AgentScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Attachment button
-                    IconButton(onClick = { documentLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                     IconButton(onClick = { filePickerLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                         Icon(
                             Icons.Default.AttachFile,
