@@ -64,7 +64,7 @@ def test_read_grievances_keyset_pagination():
             lat="0.0",
             long="0.0",
             category="Test Category",
-            created_at=base_time + timedelta(seconds=i)
+            created_at=base_time - timedelta(seconds=i)
         )
         db.add(db_report)
         db.commit()
