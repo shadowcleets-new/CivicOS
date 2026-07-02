@@ -24,5 +24,7 @@ class Grievance(Base):
     upvotes = Column(Integer, default=0)
     image_url = Column(String)
 
-    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
+    # Performance Optimization: Added single-column index to support queries filtering or sorting solely by created_at.
+    # Note: Multi-column keyset pagination sorts (created_at DESC, id DESC) are handled by a composite index in the raw SQL schema.
+    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), index=True)
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
