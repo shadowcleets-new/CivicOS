@@ -64,6 +64,10 @@ CREATE TABLE IF NOT EXISTS grievances (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Performance Optimization: Composite index for fast keyset pagination sorting by `created_at DESC, id DESC`.
+-- Reduces O(N log N) full table sort to O(log N) + O(Limit) index scan for the public grievance feed.
+CREATE INDEX IF NOT EXISTS idx_grievances_created_at_id_desc ON grievances (created_at DESC, id DESC);
+
 -- 5. COMMUNITY INTERACTION
 CREATE TABLE IF NOT EXISTS votes (
     user_id UUID REFERENCES users(id),
