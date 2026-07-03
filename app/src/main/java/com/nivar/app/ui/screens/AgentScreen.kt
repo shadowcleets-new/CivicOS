@@ -35,13 +35,9 @@ import com.nivar.app.ui.theme.NivarIce
 import com.nivar.app.ui.theme.PureWhite
 import kotlinx.coroutines.launch
 
-import android.net.Uri
 import android.provider.OpenableColumns
 import android.content.Context
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.platform.LocalContext
-
 
 // ===== Data Model =====
 data class ChatMessage(
@@ -298,7 +294,6 @@ fun AgentScreen() {
                 ) {
                     // Attachment button
                     IconButton(onClick = { documentLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
-                    IconButton(onClick = { filePickerLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                         Icon(
                             Icons.Default.AttachFile,
                             contentDescription = "Attach",
