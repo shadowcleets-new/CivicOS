@@ -54,3 +54,9 @@ def client(db):
         yield c
     # Remove the override
     app.dependency_overrides.clear()
+from app.main import app
+
+@pytest.fixture(scope="module")
+def client():
+    with TestClient(app) as c:
+        yield c
