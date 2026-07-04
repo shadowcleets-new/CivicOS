@@ -33,7 +33,11 @@ def download_docs():
         logger.info(f"Downloading {name} from {url}...")
         try:
             headers = {'User-Agent': 'Mozilla/5.0'} # Some gov sites block python-requests
-            response = requests.get(url, headers=headers, stream=True, verify=False, timeout=30) # verify=False because gov sites often have bad certs
+            try:
+                response = requests.get(url, headers=headers, stream=True, timeout=30)
+            except requests.exceptions.SSLError as e:
+                logger.warning(f"Skipping {name} due to SSL verification failure: {e}")
+                continue
             response.raise_for_status()
             with open(path, 'wb') as f:
                 f.write(response.content)
