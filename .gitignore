@@ -18,3 +18,8 @@ venv/
 __pycache__/
 *.pyc
 *.log
+
+# Flutter generated files
+frontend/.dart_tool/
+frontend/build/
+frontend/.flutter-plugins*
