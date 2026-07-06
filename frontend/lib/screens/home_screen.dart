@@ -25,8 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _isLoading = false;
-      _status =
-          "📍 You are in Ward 12, Indiranagar.\n"
+      _status = "📍 You are in Ward 12, Indiranagar.\n"
           "👮 Nearest Police: Halasuru PS (1.2km)\n"
           "🏥 Nearest Hospital: Manipal (2km)\n\n"
           "Protocol: Golden Hour Active.";
