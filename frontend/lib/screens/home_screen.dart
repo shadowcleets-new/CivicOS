@@ -25,11 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _isLoading = false;
-      _status =
-          "📍 You are in Ward 12, Indiranagar.\n"
-          "👮 Nearest Police: Halasuru PS (1.2km)\n"
-          "🏥 Nearest Hospital: Manipal (2km)\n\n"
-          "Protocol: Golden Hour Active.";
+      _status = "📍 You are in Ward 12, Indiranagar.\n"
+                "👮 Nearest Police: Halasuru PS (1.2km)\n"
+                "🏥 Nearest Hospital: Manipal (2km)\n\n"
+                "Protocol: Golden Hour Active.";
     });
   }
 
@@ -58,15 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 200,
                     child: Center(
                       child: _isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text(
-                              "SOS",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 48,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text("SOS", style: TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ),
@@ -80,10 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   _status,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
             ),

@@ -14,10 +14,7 @@ class GrievanceScreen extends StatelessWidget {
             child: Container(
               color: Colors.black,
               child: const Center(
-                child: Text(
-                  "Camera Preview Here",
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: Text("Camera Preview Here", style: TextStyle(color: Colors.white)),
               ),
             ),
           ),
@@ -27,16 +24,9 @@ class GrievanceScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Camera feature coming soon!'),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                  },
+                  onPressed: () {},
                   tooltip: 'Capture grievance photo',
-                  icon: const Icon(Icons.camera, size: 50, color: Colors.blue),
+                  icon: const Icon(Icons.camera, size: 50, color: Colors.blue)
                 ),
                 const Text("AI Analyzing: Pothole Detected..."),
               ],
