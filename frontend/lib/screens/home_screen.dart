@@ -19,10 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Mock Location Logic
     await Future.delayed(const Duration(seconds: 2)); // Simulate API call
-    
+
     // In real app: Position pos = await Geolocator.getCurrentPosition();
     // Then call Backend API: get_authority_by_lat_long(pos.latitude, pos.longitude)
-    
+
     setState(() {
       _isLoading = false;
       _status = "📍 You are in Ward 12, Indiranagar.\n"

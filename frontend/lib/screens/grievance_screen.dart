@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:camera/camera.dart'; 
+// import 'package:camera/camera.dart';
 
 class GrievanceScreen extends StatelessWidget {
   const GrievanceScreen({super.key});
@@ -24,7 +24,7 @@ class GrievanceScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () {}, 
+                  onPressed: () {},
                   tooltip: 'Capture grievance photo',
                   icon: const Icon(Icons.camera, size: 50, color: Colors.blue)
                 ),
