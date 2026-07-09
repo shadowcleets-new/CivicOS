@@ -39,6 +39,8 @@ def create_grievance(report: GrievanceCreate, db: Session = Depends(get_db)):
 @router.get("/", response_model=List[GrievanceOut])
 def read_grievances(limit: int = 100, cursor: uuid.UUID = None, db: Session = Depends(get_db)):
     from sqlalchemy import or_, and_
+    # Optimization: This query uses the idx_grievances_created_at_id composite index
+    # to efficiently perform keyset pagination without full table scans.
     query = db.query(Grievance).order_by(Grievance.created_at.desc(), Grievance.id.desc())
 
     if cursor:
