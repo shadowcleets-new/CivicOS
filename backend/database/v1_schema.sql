@@ -128,3 +128,6 @@ CREATE TABLE IF NOT EXISTS jurisdiction_rules (
     target_dept_type VARCHAR(100) -- "Forest Dept", "Railway Police", "Municipal"
 );
 
+
+-- Bolted Performance Index
+CREATE INDEX IF NOT EXISTS ix_grievances_pagination ON grievances (created_at DESC, id DESC);
