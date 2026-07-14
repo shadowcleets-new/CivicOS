@@ -1,6 +1,7 @@
 import pytest
 from app.models.grievance import Grievance
 import uuid
+from datetime import datetime, timedelta, timezone
 
 def test_read_grievances_empty(client):
     response = client.get("/api/v1/grievances/")
@@ -9,13 +10,15 @@ def test_read_grievances_empty(client):
 
 def test_read_grievances_with_data(client, db):
     # Seed the database
+    base_time = datetime.now(timezone.utc)
     grievance1 = Grievance(
         title="Pothole on Main St",
         description="Large pothole causing damage to cars.",
         lat="40.7128",
         long="-74.0060",
         category="infrastructure",
-        status="DRAFT"
+        status="DRAFT",
+        created_at=base_time
     )
     grievance2 = Grievance(
         title="Streetlight broken",
@@ -23,7 +26,8 @@ def test_read_grievances_with_data(client, db):
         lat="40.7580",
         long="-73.9855",
         category="infrastructure",
-        status="DRAFT"
+        status="DRAFT",
+        created_at=base_time - timedelta(seconds=1)
     )
     db.add_all([grievance1, grievance2])
     db.commit()
@@ -37,6 +41,7 @@ def test_read_grievances_with_data(client, db):
 
 def test_read_grievances_pagination(client, db):
     # Seed the database
+    base_time = datetime.now(timezone.utc)
     for i in range(15):
         db.add(Grievance(
             title=f"Grievance {i}",
@@ -44,24 +49,29 @@ def test_read_grievances_pagination(client, db):
             lat="0",
             long="0",
             category="other",
-            status="DRAFT"
+            status="DRAFT",
+            created_at=base_time - timedelta(seconds=i)
         ))
     db.commit()
 
     # Test limit
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 5
-
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
-    assert response.status_code == 200
     data = response.json()
     assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
+    assert data[0]["title"] == "Grievance 0"
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
+    # Test cursor pagination
+    cursor_id = data[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?limit=5&cursor={cursor_id}")
+    assert response.status_code == 200
+    data2 = response.json()
+    assert len(data2) == 5
+    assert data2[0]["title"] == "Grievance 5"
+
+    # Test limit beyond total
+    cursor_id_2 = data2[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?limit=10&cursor={cursor_id_2}")
     assert response.status_code == 200
     assert len(response.json()) == 5
 from fastapi.testclient import TestClient
