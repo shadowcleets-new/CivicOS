@@ -1,1 +1,5 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+
+## 2026-07-14 - Keyset Pagination Composite Index and Flaky Tests
+**Learning:** Adding a single column index is insufficient for keyset pagination sorting by multiple columns (e.g. `created_at DESC, id DESC`). A composite database index on all sorted columns is required for optimization. Also, bulk inserting test records creates identical timestamps leading to non-deterministic ordering (falling back to id). Tests fail if they implicitly rely on insertion order.
+**Action:** Always create a composite index matching the exact `ORDER BY` clause for keyset pagination. To fix flaky pagination tests without rewriting assertions, generate test data with unique timestamps by subtracting `timedelta` from a base time.
