@@ -14,7 +14,8 @@ class CivicOSApp extends StatelessWidget {
     return MaterialApp(
       title: 'CivicOS',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFF9933)), // Saffron-ish
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFFFF9933)), // Saffron-ish
         useMaterial3: true,
       ),
       home: const MainWrapper(),
@@ -31,7 +32,7 @@ class MainWrapper extends StatefulWidget {
 
 class _MainWrapperState extends State<MainWrapper> {
   int _selectedIndex = 0;
-  
+
   final List<Widget> _screens = [
     const HomeScreen(),
     const GrievanceScreen(),
@@ -52,9 +53,8 @@ class _MainWrapperState extends State<MainWrapper> {
       builder: (ctx) => AlertDialog(
         title: const Text('⚠️ Liability Disclaimer'),
         content: const Text(
-          "This app uses AI to guide you. It is NOT a substitute for legal counsel or emergency services.\n\n"
-          "In case of a life-threatening emergency, ALWAYS Dial 112 immediately."
-        ),
+            "This app uses AI to guide you. It is NOT a substitute for legal counsel or emergency services.\n\n"
+            "In case of a life-threatening emergency, ALWAYS Dial 112 immediately."),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
