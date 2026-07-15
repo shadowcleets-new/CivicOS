@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, TIMESTAMP, Boolean
+from sqlalchemy import Column, String, Integer, Text, TIMESTAMP, Boolean, Index
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 import uuid
@@ -26,3 +26,9 @@ class Grievance(Base):
 
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
+
+    # ⚡ Bolt Optimization: Composite index to optimize keyset pagination
+    # ordering by created_at DESC and id DESC. Reduces query from O(N log N) sort to O(log N) index scan.
+    __table_args__ = (
+        Index('idx_grievances_created_at_id_desc', created_at.desc(), id.desc()),
+    )
