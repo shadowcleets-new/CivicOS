@@ -1,6 +1,7 @@
 import pytest
 from app.models.grievance import Grievance
 import uuid
+from datetime import datetime, timedelta
 
 def test_read_grievances_empty(client):
     response = client.get("/api/v1/grievances/")
@@ -32,11 +33,12 @@ def test_read_grievances_with_data(client, db):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
-    assert data[0]["title"] == "Pothole on Main St"
-    assert data[1]["title"] == "Streetlight broken"
+    assert data[0]["title"] == "Streetlight broken"
+    assert data[1]["title"] == "Pothole on Main St"
 
 def test_read_grievances_pagination(client, db):
     # Seed the database
+    base_time = datetime.now()
     for i in range(15):
         db.add(Grievance(
             title=f"Grievance {i}",
@@ -44,24 +46,28 @@ def test_read_grievances_pagination(client, db):
             lat="0",
             long="0",
             category="other",
-            status="DRAFT"
+            status="DRAFT",
+            created_at=base_time - timedelta(seconds=i)
         ))
     db.commit()
 
     # Test limit
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    data_first_page = response.json()
+    assert len(data_first_page) == 5
 
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
+    # Test cursor
+    cursor_id = data_first_page[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={cursor_id}&limit=5")
     assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
+    data_second_page = response.json()
+    assert len(data_second_page) == 5
+    assert data_second_page[0]["title"] == "Grievance 5"
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
+    # Test cursor beyond total
+    cursor_id_last = data_second_page[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={cursor_id_last}&limit=10")
     assert response.status_code == 200
     assert len(response.json()) == 5
 from fastapi.testclient import TestClient
