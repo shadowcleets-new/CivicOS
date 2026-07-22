@@ -11,3 +11,8 @@
 **Vulnerability:** The `POSTGRES_PASSWORD` was hardcoded to a default value in the `Settings` class (`backend/app/core/config.py`).
 **Learning:** Hardcoding credentials in source code exposes them to anyone with repository access. Even if intended for local development, it can leak to production.
 **Prevention:** Rely on `pydantic_settings` to inject secrets via environment variables by defining the variable type without providing a default value.
+
+## 2026-07-22 - Missing SSL Certificate Validation
+**Vulnerability:** A script was using `requests.get(..., verify=False)` to download files, explicitly bypassing SSL validation.
+**Learning:** Bypassing SSL validation enables Man-In-The-Middle (MITM) attacks and allows attackers to serve malicious files. Using a fallback to `verify=False` on an `SSLError` is a downgrade attack.
+**Prevention:** Never use `verify=False` or fallback downgrade mechanisms for HTTP requests. Handle `SSLError` gracefully by logging the failure and skipping the compromised resource to fail securely.
