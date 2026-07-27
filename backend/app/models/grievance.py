@@ -24,5 +24,5 @@ class Grievance(Base):
     upvotes = Column(Integer, default=0)
     image_url = Column(String)
 
-    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
+    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), index=True) # Indexed to improve keyset pagination performance
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
