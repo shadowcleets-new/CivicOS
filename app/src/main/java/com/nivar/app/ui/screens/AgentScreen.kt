@@ -35,11 +35,8 @@ import com.nivar.app.ui.theme.NivarIce
 import com.nivar.app.ui.theme.PureWhite
 import kotlinx.coroutines.launch
 
-import android.net.Uri
 import android.provider.OpenableColumns
 import android.content.Context
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.platform.LocalContext
 
 
