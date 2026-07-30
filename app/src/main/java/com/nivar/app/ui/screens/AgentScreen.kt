@@ -297,7 +297,6 @@ fun AgentScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Attachment button
-                    IconButton(onClick = { documentLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                     IconButton(onClick = { filePickerLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                         Icon(
                             Icons.Default.AttachFile,
