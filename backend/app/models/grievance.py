@@ -24,5 +24,8 @@ class Grievance(Base):
     upvotes = Column(Integer, default=0)
     image_url = Column(String)
 
-    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
+    # BOLT OPTIMIZATION: Added index=True to created_at to support efficient keyset pagination.
+    # Without this index, the database must perform a full table scan and sort on every page load.
+    # Expected impact: O(log N) rather than O(N log N) for the pagination query in read_grievances.
+    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), index=True)
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
