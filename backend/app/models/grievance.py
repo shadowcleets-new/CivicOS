@@ -24,5 +24,7 @@ class Grievance(Base):
     upvotes = Column(Integer, default=0)
     image_url = Column(String)
 
-    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
+    # ⚡ Bolt Optimization: Added database index to created_at for O(log n) keyset pagination performance.
+    # Eliminates full table scans when ordering and filtering by created_at in the read_grievances endpoint.
+    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), index=True)
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
