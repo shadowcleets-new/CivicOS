@@ -13,10 +13,6 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import android.net.Uri
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -297,7 +293,6 @@ fun AgentScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Attachment button
-                    IconButton(onClick = { documentLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                     IconButton(onClick = { filePickerLauncher.launch("*/*") }, modifier = Modifier.size(40.dp)) {
                         Icon(
                             Icons.Default.AttachFile,
@@ -416,5 +411,4 @@ fun ChatBubble(message: ChatMessage, onOptionClick: (String) -> Unit) {
             }
         }
     }
-}
 }
