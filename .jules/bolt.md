@@ -1,1 +1,4 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+## 2024-08-19 - Do not commit SQLite test DBs
+**Learning:** Running local tests can sometimes generate binary files like `test.db` if the application or tests aren't cleanly dropping them or isolating in-memory bases correctly. Committing these pollutes the repo and breaks CI/CD.
+**Action:** Always run `git status` and `git clean -fdx` (or explicitly remove specific artifacts like `test.db` and use `git reset HEAD <file>`) to ensure only intended code changes are staged before submitting.
