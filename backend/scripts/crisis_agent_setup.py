@@ -38,6 +38,8 @@ def download_docs():
             with open(path, 'wb') as f:
                 f.write(response.content)
             logger.info(f"Downloaded {name}.")
+        except requests.exceptions.SSLError as e:
+            logger.error(f"Failed to securely download {name} due to SSL error: {e}. Skipping unverified resource.")
         except Exception as e:
             logger.error(f"Failed to download {name}: {e}")
 
