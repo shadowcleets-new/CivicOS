@@ -36,32 +36,42 @@ def test_read_grievances_with_data(client, db):
     assert data[1]["title"] == "Streetlight broken"
 
 def test_read_grievances_pagination(client, db):
+    from datetime import datetime, timedelta
+
     # Seed the database
     for i in range(15):
-        db.add(Grievance(
+        g = Grievance(
             title=f"Grievance {i}",
             description=f"Description {i}",
             lat="0",
             long="0",
             category="other",
             status="DRAFT"
-        ))
+        )
+        db.add(g)
+        db.flush()
+        # Offset the created_at by seconds so they aren't identical and don't break cursor pagination sort
+        g.created_at = datetime.now() - timedelta(seconds=15 - i)
     db.commit()
 
     # Test limit
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    data = response.json()
+    assert len(data) == 5
+    first_page_last_id = data[-1]["id"]
 
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
+    # Test cursor pagination (skip equivalent)
+    response = client.get(f"/api/v1/grievances/?cursor={first_page_last_id}&limit=5")
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
+    # Since they are ordered by desc, the first 5 are 14 to 10. The next 5 are 9 to 5.
+    assert data[0]["title"] == "Grievance 9"
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
+    # Test remaining
+    second_page_last_id = data[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={second_page_last_id}&limit=10")
     assert response.status_code == 200
     assert len(response.json()) == 5
 from fastapi.testclient import TestClient
