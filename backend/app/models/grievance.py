@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, TIMESTAMP, Boolean
+from sqlalchemy import Column, String, Integer, Text, TIMESTAMP, Boolean, Index
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 import uuid
@@ -26,3 +26,9 @@ class Grievance(Base):
 
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
+
+    # Add a composite database index to optimize multi-column keyset pagination
+    # expected performance impact: reduces query time from O(n log n) or O(n) to O(log n) for offset location
+    __table_args__ = (
+        Index('ix_grievance_pagination', created_at.desc(), id.desc()),
+    )
