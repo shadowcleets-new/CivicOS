@@ -417,3 +417,4 @@ fun ChatBubble(message: ChatMessage, onOptionClick: (String) -> Unit) {
         }
     }
 }
+}

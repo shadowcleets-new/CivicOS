@@ -35,8 +35,11 @@ def test_read_grievances_with_data(client, db):
     assert data[0]["title"] == "Pothole on Main St"
     assert data[1]["title"] == "Streetlight broken"
 
+import datetime
+
 def test_read_grievances_pagination(client, db):
-    # Seed the database
+    # Seed the database with distinct timestamps to ensure deterministic ordering
+    base_time = datetime.datetime.now(datetime.timezone.utc)
     for i in range(15):
         db.add(Grievance(
             title=f"Grievance {i}",
@@ -44,26 +47,44 @@ def test_read_grievances_pagination(client, db):
             lat="0",
             long="0",
             category="other",
-            status="DRAFT"
+            status="DRAFT",
+            created_at=base_time + datetime.timedelta(seconds=i)
         ))
     db.commit()
+
+    # Get all grievances ordered by created_at DESC (newest first)
+    all_grievances_response = client.get("/api/v1/grievances/?limit=15")
+    assert all_grievances_response.status_code == 200
+    all_grievances = all_grievances_response.json()
+    assert len(all_grievances) == 15
+    # The first one should be the one added last (Grievance 14)
+    assert all_grievances[0]["title"] == "Grievance 14"
 
     # Test limit
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
     assert len(response.json()) == 5
+    assert response.json()[0]["title"] == "Grievance 14"
+    assert response.json()[4]["title"] == "Grievance 10"
 
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
+    # Test keyset pagination (cursor) instead of skip (offset)
+    cursor = response.json()[4]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={cursor}&limit=5")
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
+    # Should get Grievances 9 through 5
+    assert data[0]["title"] == "Grievance 9"
+    assert data[4]["title"] == "Grievance 5"
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
+    # Test cursor and limit beyond total
+    cursor = data[4]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={cursor}&limit=10")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    data = response.json()
+    assert len(data) == 5
+    assert data[0]["title"] == "Grievance 4"
+    assert data[4]["title"] == "Grievance 0"
 from fastapi.testclient import TestClient
 
 def test_create_grievance(client: TestClient):
