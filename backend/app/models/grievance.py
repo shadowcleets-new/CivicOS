@@ -24,5 +24,11 @@ class Grievance(Base):
     upvotes = Column(Integer, default=0)
     image_url = Column(String)
 
-    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
+    # ⚡ BOLT OPTIMIZATION:
+    # Added `index=True` to `created_at` because the `/api/v1/grievances/` endpoint
+    # uses cursor pagination and orders by `created_at.desc()`.
+    # Without this index, PostgreSQL performs a full table scan and in-memory sort
+    # for every request, reducing performance at scale. This index reduces
+    # query time complexity from O(N) (table scan) to O(log N) (index lookup).
+    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), index=True)
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
