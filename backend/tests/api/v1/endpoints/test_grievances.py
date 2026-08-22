@@ -32,11 +32,15 @@ def test_read_grievances_with_data(client, db):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
-    assert data[0]["title"] == "Pothole on Main St"
-    assert data[1]["title"] == "Streetlight broken"
+    # Since we order by created_at DESC, id DESC, the second grievance inserted will be first
+    assert data[0]["title"] == "Streetlight broken"
+    assert data[1]["title"] == "Pothole on Main St"
 
 def test_read_grievances_pagination(client, db):
+    from datetime import datetime, timedelta, timezone
+
     # Seed the database
+    base_time = datetime.now(timezone.utc)
     for i in range(15):
         db.add(Grievance(
             title=f"Grievance {i}",
@@ -44,26 +48,34 @@ def test_read_grievances_pagination(client, db):
             lat="0",
             long="0",
             category="other",
-            status="DRAFT"
+            status="DRAFT",
+            created_at=base_time + timedelta(seconds=i)
         ))
     db.commit()
 
-    # Test limit
+    # Test limit (Page 1)
     response = client.get("/api/v1/grievances/?limit=5")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    page1 = response.json()
+    assert len(page1) == 5
+    # Since it's ordered by created_at DESC, the first item should be Grievance 14
+    assert page1[0]["title"] == "Grievance 14"
 
-    # Test skip
-    response = client.get("/api/v1/grievances/?skip=5&limit=5")
+    # Test cursor (Page 2)
+    cursor = page1[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={cursor}&limit=5")
     assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 5
-    assert data[0]["title"] == "Grievance 5"
+    page2 = response.json()
+    assert len(page2) == 5
+    assert page2[0]["title"] == "Grievance 9"
 
-    # Test skip and limit beyond total
-    response = client.get("/api/v1/grievances/?skip=10&limit=10")
+    # Test cursor beyond total (Page 3)
+    cursor2 = page2[-1]["id"]
+    response = client.get(f"/api/v1/grievances/?cursor={cursor2}&limit=10")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    page3 = response.json()
+    assert len(page3) == 5
+    assert page3[-1]["title"] == "Grievance 0"
 from fastapi.testclient import TestClient
 
 def test_create_grievance(client: TestClient):
