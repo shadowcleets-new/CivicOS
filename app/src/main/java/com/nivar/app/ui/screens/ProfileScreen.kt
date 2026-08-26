@@ -131,13 +131,39 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            var showSignOutDialog by remember { mutableStateOf(false) }
+
             Button(
-                onClick = onSignOut,
+                onClick = { showSignOutDialog = true },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text("Sign Out")
+            }
+
+            if (showSignOutDialog) {
+                AlertDialog(
+                    onDismissRequest = { showSignOutDialog = false },
+                    title = { Text("Sign Out") },
+                    text = { Text("Are you sure you want to sign out?") },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                showSignOutDialog = false
+                                onSignOut()
+                            },
+                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
+                        ) {
+                            Text("Sign Out")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showSignOutDialog = false }) {
+                            Text("Cancel")
+                        }
+                    }
+                )
             }
         }
     }
