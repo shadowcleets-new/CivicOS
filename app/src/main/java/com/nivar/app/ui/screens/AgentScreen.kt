@@ -35,6 +35,7 @@ import com.nivar.app.ui.theme.NivarIce
 import com.nivar.app.ui.theme.PureWhite
 import kotlinx.coroutines.launch
 
+import android.widget.Toast
 import android.provider.OpenableColumns
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
@@ -320,7 +321,12 @@ fun AgentScreen() {
                     Spacer(modifier = Modifier.width(4.dp))
 
                     // Voice input
-                    IconButton(onClick = { /* TODO */ }, modifier = Modifier.size(40.dp)) {
+                    IconButton(
+                        onClick = {
+                            Toast.makeText(context, "Voice input coming soon", Toast.LENGTH_SHORT).show()
+                        },
+                        modifier = Modifier.size(40.dp)
+                    ) {
                         Icon(
                             Icons.Default.Mic,
                             contentDescription = "Voice",
