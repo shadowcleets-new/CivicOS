@@ -1,1 +1,4 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+## 2025-03-02 - SQLite in-memory DB for isolated unit testing
+**Learning:** Pytest backend tests can fail with psycopg2 `OperationalError` when attempting to connect to a local PostgreSQL instance that isn't running or configured properly in the CI/dev environment.
+**Action:** When running isolated unit tests for backend logic (like models or endpoints), explicitly override the `SQLALCHEMY_DATABASE_URI` environment variable to use an in-memory SQLite database (`sqlite:///:memory:`) to decouple test execution from external database dependencies and prevent flaky/failing tests in unprovisioned environments.
