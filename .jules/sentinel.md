@@ -11,3 +11,7 @@
 **Vulnerability:** The `POSTGRES_PASSWORD` was hardcoded to a default value in the `Settings` class (`backend/app/core/config.py`).
 **Learning:** Hardcoding credentials in source code exposes them to anyone with repository access. Even if intended for local development, it can leak to production.
 **Prevention:** Rely on `pydantic_settings` to inject secrets via environment variables by defining the variable type without providing a default value.
+## 2026-08-31 - Fix Path Traversal in template loader
+**Vulnerability:** The `load_template` function in `drafting_engine.py` was vulnerable to Path Traversal via the `template_name` parameter, allowing potential access to arbitrary files outside the `TEMPLATE_DIR`.
+**Learning:** Always sanitize and validate user-supplied input used in file paths, especially when constructing absolute paths. Simple concatenation is insufficient without resolving and checking the final path.
+**Prevention:** Use `os.path.basename()` to extract only the filename from user input, and as a defense-in-depth measure, verify that the resolved absolute path using `os.path.abspath()` starts with the expected base directory.
