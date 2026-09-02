@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, TIMESTAMP, Boolean
+from sqlalchemy import Column, String, Integer, Text, TIMESTAMP, Boolean, Index
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 import uuid
@@ -26,3 +26,7 @@ class Grievance(Base):
 
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
+
+    __table_args__ = (
+        Index('idx_grievance_pagination', created_at.desc(), id.desc()),
+    )
