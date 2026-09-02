@@ -42,12 +42,13 @@ def read_grievances(limit: int = 100, cursor: uuid.UUID = None, db: Session = De
     query = db.query(Grievance).order_by(Grievance.created_at.desc(), Grievance.id.desc())
 
     if cursor:
-        cursor_grievance = db.query(Grievance).filter(Grievance.id == cursor).first()
-        if cursor_grievance:
+        # ⚡ Bolt: Using scalar() to only fetch created_at prevents hydrating large model blobs
+        cursor_created_at = db.query(Grievance.created_at).filter(Grievance.id == cursor).scalar()
+        if cursor_created_at:
             query = query.filter(
                 or_(
-                    Grievance.created_at < cursor_grievance.created_at,
-                    and_(Grievance.created_at == cursor_grievance.created_at, Grievance.id < cursor_grievance.id)
+                    Grievance.created_at < cursor_created_at,
+                    and_(Grievance.created_at == cursor_created_at, Grievance.id < cursor)
                 )
             )
         else:
