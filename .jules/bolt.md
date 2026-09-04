@@ -1,1 +1,4 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+## 2024-09-04 - Optimize Keyset Pagination Query & Indexing
+**Learning:** Fetching the entire entity just to resolve the cursor's timestamp in keyset pagination causes unnecessary overhead from hydrating large text fields. Furthermore, keyset pagination requires a composite index matching the `ORDER BY` clause to enable efficient index-only scans.
+**Action:** Use `.scalar()` to select only the necessary column (e.g., `db.query(Model.created_at).filter(...).scalar()`) and ensure a composite index (e.g., `Index('idx_name', created_at.desc(), id.desc())`) exists on the model and in the database schema.

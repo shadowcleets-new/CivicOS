@@ -64,6 +64,9 @@ CREATE TABLE IF NOT EXISTS grievances (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Index for keyset pagination efficiency
+CREATE INDEX IF NOT EXISTS idx_grievance_created_at_id_desc ON grievances (created_at DESC, id DESC);
+
 -- 5. COMMUNITY INTERACTION
 CREATE TABLE IF NOT EXISTS votes (
     user_id UUID REFERENCES users(id),
