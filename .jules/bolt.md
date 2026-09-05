@@ -1,1 +1,4 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+## 2024-05-24 - Keyset Pagination Optimization
+**Learning:** Hydrating full SQLAlchemy entities just to resolve a cursor timestamp adds significant overhead, and keyset pagination requires a composite index matching the exact ORDER BY clause to prevent full table scans and expensive sorts.
+**Action:** Use `.scalar()` for resolving cursors and ensure composite indexes (e.g. `(created_at DESC, id DESC)`) are added to support efficient index-only scans for pagination.
