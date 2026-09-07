@@ -42,12 +42,12 @@ def read_grievances(limit: int = 100, cursor: uuid.UUID = None, db: Session = De
     query = db.query(Grievance).order_by(Grievance.created_at.desc(), Grievance.id.desc())
 
     if cursor:
-        cursor_grievance = db.query(Grievance).filter(Grievance.id == cursor).first()
-        if cursor_grievance:
+        cursor_timestamp = db.query(Grievance.created_at).filter(Grievance.id == cursor).scalar()
+        if cursor_timestamp:
             query = query.filter(
                 or_(
-                    Grievance.created_at < cursor_grievance.created_at,
-                    and_(Grievance.created_at == cursor_grievance.created_at, Grievance.id < cursor_grievance.id)
+                    Grievance.created_at < cursor_timestamp,
+                    and_(Grievance.created_at == cursor_timestamp, Grievance.id < cursor)
                 )
             )
         else:
