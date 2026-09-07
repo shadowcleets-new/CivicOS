@@ -128,3 +128,6 @@ CREATE TABLE IF NOT EXISTS jurisdiction_rules (
     target_dept_type VARCHAR(100) -- "Forest Dept", "Railway Police", "Municipal"
 );
 
+
+-- Adding index for optimized keyset pagination on read_grievances
+CREATE INDEX idx_grievances_created_at_id ON grievances (created_at DESC, id DESC);
