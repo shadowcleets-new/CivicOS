@@ -1,1 +1,5 @@
 ## 2024-05-23 - Setup testing for recommend_schemes endpoint\n**Learning:** Missing test client setup causes early blockers. Adding `conftest.py` with the TestClient fixture sets up the testing environment properly. \n**Action:** Always create test setup files and ensure basic dependency packages like pytest, pydantic-settings, and psycopg2-binary are installed.
+
+## 2024-05-24 - Optimize keyset pagination queries
+**Learning:** Fetching the entire entity (e.g. using `.first()`) just to resolve a cursor's timestamp for keyset pagination incurs unnecessary overhead by hydrating large text fields. Also, keyset pagination relying on `ORDER BY created_at DESC, id DESC` will result in full table scans if a composite index on exactly those columns does not exist.
+**Action:** When implementing keyset pagination, use `.scalar()` to select only the required cursor column (e.g. `db.query(Model.created_at).filter(...).scalar()`), and always ensure a matching composite index is present on the database schema and SQLAlchemy model.
