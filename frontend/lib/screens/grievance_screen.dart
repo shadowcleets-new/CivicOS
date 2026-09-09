@@ -24,7 +24,14 @@ class GrievanceScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () {}, 
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Feature coming soon'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
                   tooltip: 'Capture grievance photo',
                   icon: const Icon(Icons.camera, size: 50, color: Colors.blue)
                 ),
