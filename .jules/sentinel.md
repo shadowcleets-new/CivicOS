@@ -11,3 +11,7 @@
 **Vulnerability:** The `POSTGRES_PASSWORD` was hardcoded to a default value in the `Settings` class (`backend/app/core/config.py`).
 **Learning:** Hardcoding credentials in source code exposes them to anyone with repository access. Even if intended for local development, it can leak to production.
 **Prevention:** Rely on `pydantic_settings` to inject secrets via environment variables by defining the variable type without providing a default value.
+## 2024-05-25 - Unbounded Inputs Leading to DoS
+**Vulnerability:** Missing length limits on `GrievanceCreate` inputs and unbounded `limit` query parameter.
+**Learning:** Unconstrained inputs and query parameters can lead to Resource Exhaustion and Denial of Service (DoS) attacks.
+**Prevention:** Always use Pydantic `Field` to set maximum string lengths, and FastAPI `Query` parameters with strict bounds (`ge`, `le`) for pagination limits.
