@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from app.core.database import get_db
 from app.models.grievance import Grievance
 import uuid
@@ -12,13 +12,13 @@ router = APIRouter()
 from typing import Optional
 
 class GrievanceCreate(BaseModel):
-    title: str
-    description: str
-    lat: str
-    long: str
-    category: str
-    image_url: Optional[str] = None
-    image_url: str | None = None
+    # SECURITY: Added input length limits to prevent DoS via massive payloads
+    title: str = Field(..., max_length=100)
+    description: str = Field(..., max_length=2000)
+    lat: str = Field(..., max_length=50)
+    long: str = Field(..., max_length=50)
+    category: str = Field(..., max_length=100)
+    image_url: Optional[str] = Field(None, max_length=1000)
 
 class GrievanceOut(GrievanceCreate):
     id: uuid.UUID
@@ -37,7 +37,11 @@ def create_grievance(report: GrievanceCreate, db: Session = Depends(get_db)):
     return db_report
 
 @router.get("/", response_model=List[GrievanceOut])
-def read_grievances(limit: int = 100, cursor: uuid.UUID = None, db: Session = Depends(get_db)):
+def read_grievances(
+    limit: int = Query(100, ge=1, le=100, description="SECURITY: Bounded limit to prevent resource exhaustion"),
+    cursor: uuid.UUID = None,
+    db: Session = Depends(get_db)
+):
     from sqlalchemy import or_, and_
     query = db.query(Grievance).order_by(Grievance.created_at.desc(), Grievance.id.desc())
 
