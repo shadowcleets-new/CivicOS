@@ -128,3 +128,7 @@ CREATE TABLE IF NOT EXISTS jurisdiction_rules (
     target_dept_type VARCHAR(100) -- "Forest Dept", "Railway Police", "Municipal"
 );
 
+
+-- 11. INDEXES
+-- ⚡ Bolt: Composite index to optimize keyset pagination queries
+CREATE INDEX IF NOT EXISTS idx_grievances_pagination ON grievances (created_at DESC, id DESC);
