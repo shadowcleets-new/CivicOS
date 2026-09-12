@@ -11,3 +11,7 @@
 **Vulnerability:** The `POSTGRES_PASSWORD` was hardcoded to a default value in the `Settings` class (`backend/app/core/config.py`).
 **Learning:** Hardcoding credentials in source code exposes them to anyone with repository access. Even if intended for local development, it can leak to production.
 **Prevention:** Rely on `pydantic_settings` to inject secrets via environment variables by defining the variable type without providing a default value.
+## 2024-05-25 - Path Traversal Vulnerability
+**Vulnerability:** Unsanitized user input (`template_name`) used directly in `os.path.join` allowing path traversal attacks.
+**Learning:** Even internal helper scripts can be vulnerable if they construct file paths from unvalidated input.
+**Prevention:** Always validate file names (reject `../`, `/`, `\`) and verify the absolute resolved path strictly resides within the intended base directory using `os.path.abspath` and `startswith()`.

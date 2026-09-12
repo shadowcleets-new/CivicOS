@@ -15,7 +15,16 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "t
 
 def load_template(template_name):
     """Loads a markdown template."""
-    path = os.path.join(TEMPLATE_DIR, f"{template_name}.md")
+    # Prevent directory traversal attacks
+    if ".." in template_name or "/" in template_name or "\\" in template_name:
+        raise ValueError("Invalid template name")
+
+    path = os.path.abspath(os.path.join(TEMPLATE_DIR, f"{template_name}.md"))
+
+    # Ensure path is strictly within TEMPLATE_DIR
+    if not path.startswith(os.path.abspath(TEMPLATE_DIR)):
+        raise ValueError("Invalid template path")
+
     if not os.path.exists(path):
         raise FileNotFoundError(f"Template {template_name} not found.")
     with open(path, 'r') as f:
